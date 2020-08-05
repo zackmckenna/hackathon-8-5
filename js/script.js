@@ -12,7 +12,7 @@ function drawDot(x, y, color = "blue", r = "10px") {
   document.body.appendChild(dot);
 }
 
-const drawSquare = (x, y, color = "orange", r = "10px") => {
+const drawSquare = (x, y, color = "orange", r = "40px") => {
   const square = document.createElement("div");
   square.style.position = "absolute";
   square.style.width = r;
@@ -23,6 +23,8 @@ const drawSquare = (x, y, color = "orange", r = "10px") => {
   square.style.left = x;
   square.style.top = y;
   document.body.appendChild(square);
+  console.log(`x: ${x} - ${x+r}`)
+  console.log(`y ${y} - ${x + r}`)
 }
 // drawing calibration dots
 const calDot = (x, y) => drawDot(x, y, "red", "20px");
@@ -51,40 +53,43 @@ ready(() => {
   const w = window.innerWidth;
   let incrementor = 0
 
-  const getRandomCoord = (orientation, size) => {
-    if (orientation === 'x'){
+  const getRandomCoord = (size) => {
       return Math.floor( Math.random() * size )
-    } else if (orientation === 'y') {
-      return Math.floor( Math.random() * size )
-    }
   }
 
   const generateRandomSquare = (h, w, color, r) => {
-    return drawSquare(getRandomCoord('x',h) + 'px', getRandomCoord('y',w) + 'px', color, r)
+    return drawSquare(getRandomCoord(h) + 'px', getRandomCoord(w) + 'px', color, r)
   }
 
   webgazer
     .setRegression('ridge')
     .setGazeListener(function (data, elapsedTime) {
+
+
       if (data == null) {
         return;
       }
       if (start) {
-        while (incrementor < 50) {
-          setTimeout(() => {
-            incrementor += 1
-            console.log(incrementor)
-            drawSquare(getRandomCoord('x',h) + 'px', getRandomCoord('y',w) + 'px', "orange", 30)
-          },3000)
-        }
-        drawDot(data.x + "px", data.y + "px");
-        // drawSquare(getRandomCoord('x',h) + 'px', getRandomCoord('y',w) + 'px', "yellow")
+        const parameterx = data.x
+        const parmetery = data.y
+        // drawSquare(getRandomCoord(h) + 'px', getRandomCoord(w) + 'px', "yellow")
       }
     })
     .begin()
     .showPredictionPoints(true)
 
+  document.getElementById("makeSquare").onclick = function (e) {
+    const x = getRandomCoord(w)
+    const y = getRandomCoord(h)
+    console.log('make square')
+    console.log(`height: ${h} width: ${w}`)
+    console.log('random x', x)
+    console.log('random y', y)
+    drawSquare(x + 'px', y + 'px', "yellow")
+  }
+
   document.getElementById("start").onclick = function (e) {
+    drawSquare(getRandomCoord(h) + 'px', getRandomCoord(w) + 'px', "yellow", 30)
     start = true;
     document.getElementById("instructions").innerText =
       "Great! Now the blue dots should track where you are looking!";
