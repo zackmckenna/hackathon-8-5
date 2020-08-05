@@ -12,8 +12,10 @@ function drawDot(x, y, color = "blue", r = "10px") {
   document.body.appendChild(dot);
 }
 
-const drawSquare = (x, y, color = "orange", r = "40px") => {
+const drawSquare = (x, y, color = "orange", r = "40px", id) => {
   const square = document.createElement("div");
+
+  square.id = id
   square.style.position = "absolute";
   square.style.width = r;
   square.style.height = r;
@@ -22,9 +24,8 @@ const drawSquare = (x, y, color = "orange", r = "40px") => {
   square.style.backgroundColor = color;
   square.style.left = x;
   square.style.top = y;
+  console.log('element:', square)
   document.body.appendChild(square);
-  console.log(`x: ${x} - ${x+r}`)
-  console.log(`y ${y} - ${x + r}`)
 }
 // drawing calibration dots
 const calDot = (x, y) => drawDot(x, y, "red", "20px");
@@ -52,6 +53,10 @@ ready(() => {
   const h = window.innerHeight;
   const w = window.innerWidth;
   let incrementor = 0
+  let score = 0
+  let squares = [
+
+  ]
 
   const getRandomCoord = (size) => {
       return Math.floor( Math.random() * size )
@@ -69,9 +74,19 @@ ready(() => {
       if (data == null) {
         return;
       }
-      if (start) {
+      if (data) {
         const parameterx = data.x
         const parmetery = data.y
+        squares.map(square => {
+          if(data.x > square.x && data.x < (square.x + 40) && data.y > square.y && data.y < (square.y + 40)){
+            score += 1
+            document.getElementById(square.id).style.display = "none"
+            document.getElementById("score").innerText =
+            `Score: ${score}`;
+            squares = [squares.filter(newSquare => newSquare.id !== square.id)]
+          }
+
+        })
         // drawSquare(getRandomCoord(h) + 'px', getRandomCoord(w) + 'px', "yellow")
       }
     })
@@ -81,11 +96,15 @@ ready(() => {
   document.getElementById("makeSquare").onclick = function (e) {
     const x = getRandomCoord(w)
     const y = getRandomCoord(h)
+    const id = `square_${incrementor}`
+    incrementor += 1
     console.log('make square')
     console.log(`height: ${h} width: ${w}`)
     console.log('random x', x)
     console.log('random y', y)
-    drawSquare(x + 'px', y + 'px', "yellow")
+    drawSquare(x + 'px', y + 'px', "orange", "40px", id)
+    squares = [...squares, { id: id, x: x, y: y}]
+    console.log('array:', squares)
   }
 
   document.getElementById("start").onclick = function (e) {
