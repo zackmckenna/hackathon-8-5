@@ -85,16 +85,6 @@ ready(() => {
     })
     .begin()
     .showPredictionPoints(true)
-  document.getElementById("clear").onclick = function (e){
-    squares.map(square => {
-      console.log(square)
-      document.getElementById(square.id).style.display = "none"
-      document.getElementById("score").innerText =
-      `0`;
-    })
-    squares = []
-    clear = false
-  }
   document.getElementById("makeSquare").onclick = function (e) {
     const x = getRandomCoord(w)
     const y = getRandomCoord(h)
