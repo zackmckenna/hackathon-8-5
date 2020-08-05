@@ -14,7 +14,9 @@
       h1 {
         margin-top: 300px;
       }
-
+      .score {
+        font-size: '2em';
+      }
 
     </style>
   </head>
@@ -41,18 +43,23 @@
       </div>
 
     </div>
-    <h1>Box Hunter</h1>
-    <p>CALIBRATE FIRST!</p>
-    <p>Click 'make square' to generate squares</p>
-    <p>Use your eyes to hunt them down!</p>
-    <p>Get the highest score!</p>
-    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#staticBackdrop">
-      calibration
-    </button>
-    <button class='btn btn-primary' id="makeSquare">
-      make square
-    </button>
-    <div class='' id="score">
+    <div class='p-3'>
+      <h1>Box Hunter 2000</h1>
+      <p>1: Click 'calibrate' before you start</p>
+      <p>2: Click 'make square' to generate squares</p>
+      <p>3: Use your eyes to hunt them down!</p>
+      <p>4: Get the highest score!</p>
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#staticBackdrop">
+        calibration
+      </button>
+      <button class='btn btn-primary' id="makeSquare">
+        make square
+      </button>
+    </div>
+    <!-- <button class='btn btn-danger' id="clear">
+      clear
+    </button> -->
+    <div class='score font-weight-bold text-center' id="score">
 
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

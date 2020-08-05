@@ -24,7 +24,6 @@ const drawSquare = (x, y, color = "orange", r = "40px", id) => {
   square.style.backgroundColor = color;
   square.style.left = x;
   square.style.top = y;
-  console.log('element:', square)
   document.body.appendChild(square);
 }
 // drawing calibration dots
@@ -49,7 +48,6 @@ function ready(fn) {
 }
 
 ready(() => {
-  let start = false;
   const h = window.innerHeight;
   const w = window.innerWidth;
   let incrementor = 0
@@ -57,14 +55,11 @@ ready(() => {
   let squares = [
 
   ]
-
+  let clear = false
   const getRandomCoord = (size) => {
       return Math.floor( Math.random() * size )
   }
 
-  const generateRandomSquare = (h, w, color, r) => {
-    return drawSquare(getRandomCoord(h) + 'px', getRandomCoord(w) + 'px', color, r)
-  }
 
   webgazer
     .setRegression('ridge')
@@ -75,36 +70,38 @@ ready(() => {
         return;
       }
       if (data) {
-        const parameterx = data.x
-        const parmetery = data.y
+
         squares.map(square => {
           if(data.x > square.x && data.x < (square.x + 40) && data.y > square.y && data.y < (square.y + 40)){
             score += 1
             document.getElementById(square.id).style.display = "none"
             document.getElementById("score").innerText =
-            `Score: ${score}`;
+            `score: ${score}`;
             squares = [squares.filter(newSquare => newSquare.id !== square.id)]
           }
 
         })
-        // drawSquare(getRandomCoord(h) + 'px', getRandomCoord(w) + 'px', "yellow")
       }
     })
     .begin()
     .showPredictionPoints(true)
-
+  document.getElementById("clear").onclick = function (e){
+    squares.map(square => {
+      console.log(square)
+      document.getElementById(square.id).style.display = "none"
+      document.getElementById("score").innerText =
+      `0`;
+    })
+    squares = []
+    clear = false
+  }
   document.getElementById("makeSquare").onclick = function (e) {
     const x = getRandomCoord(w)
     const y = getRandomCoord(h)
     const id = `square_${incrementor}`
     incrementor += 1
-    console.log('make square')
-    console.log(`height: ${h} width: ${w}`)
-    console.log('random x', x)
-    console.log('random y', y)
     drawSquare(x + 'px', y + 'px', "orange", "40px", id)
     squares = [...squares, { id: id, x: x, y: y}]
-    console.log('array:', squares)
   }
 });
 
