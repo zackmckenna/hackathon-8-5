@@ -106,12 +106,9 @@ ready(() => {
     squares = [...squares, { id: id, x: x, y: y}]
     console.log('array:', squares)
   }
-
-  document.getElementById("start").onclick = function (e) {
-    drawSquare(getRandomCoord(h) + 'px', getRandomCoord(w) + 'px', "yellow", 30)
-    start = true;
-    document.getElementById("instructions").innerText =
-      "Great! Now the blue dots should track where you are looking!";
-  };
 });
+
+window.applyKalmanFilter = true;
+
+window.saveDataAcrossSessions = true;
 
